@@ -11,11 +11,10 @@ import {
   hideLoader,
 } from './js/render-functions.js';
 
-const form = document.querySelector('.search-form');
+const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 
-// Ініціалізація екземпляра SimpleLightbox
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -35,7 +34,6 @@ form.addEventListener('submit', event => {
     return;
   }
 
-  // Очищення галереї перед новим запитом
   gallery.innerHTML = '';
   showLoader(loader);
 
@@ -53,11 +51,9 @@ form.addEventListener('submit', event => {
         return;
       }
 
-      // Вставка нових елементів за одну операцію
       const markup = renderGallery(data.hits);
       gallery.innerHTML = markup;
 
-      // Оновлення слайдера SimpleLightbox
       lightbox.refresh();
     })
     .catch(() => {

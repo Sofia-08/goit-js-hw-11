@@ -1,23 +1,16 @@
-const API_KEY = '57070176-1d3ec272671065a7e5a57d0b3'; // Заміни за потреби на свій ключ Pixabay
+import axios from 'axios';
+const API_KEY = '57070176-1d3ec272671065a7e5a57d0b3';
 
 export function fetchImages(query) {
-  const searchParams = new URLSearchParams({
-    key: API_KEY,
-    q: query,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: 'true',
-  });
-
-  return fetch(`https://pixabay.com/api/?${searchParams}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
+  return axios
+    .get('https://pixabay.com/api/', {
+      params: {
+        key: API_KEY,
+        q: query,
+        image_type: 'photo',
+        orientation: 'horizontal',
+        safesearch: 'true',
+      },
     })
-    .catch(error => {
-      console.error('Error fetching images:', error);
-      throw error;
-    });
+    .then(response => response.data);
 }
