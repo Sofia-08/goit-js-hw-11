@@ -1,24 +1,15 @@
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import { fetchImages } from './js/pixabay-api.js';
 import {
   renderGallery,
+  clearGallery,
   showLoader,
   hideLoader,
 } from './js/render-functions.js';
 
 const form = document.querySelector('.form');
-const gallery = document.querySelector('.gallery');
-const loader = document.querySelector('.loader');
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
 
 form.addEventListener('submit', event => {
   event.preventDefault();
@@ -34,12 +25,12 @@ form.addEventListener('submit', event => {
     return;
   }
 
-  gallery.innerHTML = '';
-  showLoader(loader);
+  clearGallery();
+  showLoader();
 
   fetchImages(searchQuery)
     .then(data => {
-      hideLoader(loader);
+      hideLoader();
 
       if (data.hits.length === 0) {
         iziToast.error({
@@ -51,18 +42,16 @@ form.addEventListener('submit', event => {
         return;
       }
 
-      const markup = renderGallery(data.hits);
-      gallery.innerHTML = markup;
-
-      lightbox.refresh();
+      renderGallery(data.hits);
     })
-    .catch(() => {
-      hideLoader(loader);
+    .catch(error => {
+      hideLoader();
       iziToast.error({
         title: 'Error',
         message: 'Something went wrong! Please try again later.',
         position: 'topRight',
       });
+      console.error(error);
     })
     .finally(() => {
       form.reset();
