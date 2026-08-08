@@ -9,7 +9,6 @@ import {
   hideLoader,
   showLoadMoreBtn,
   hideLoadMoreBtn,
-  smoothScroll,
 } from './js/render-functions.js';
 
 const form = document.querySelector('.form');
@@ -19,6 +18,17 @@ let searchQuery = '';
 let page = 1;
 const perPage = 15;
 let totalHits = 0;
+
+function smoothScroll() {
+  const galleryItem = document.querySelector('.gallery-item');
+  if (!galleryItem) return;
+
+  const rect = galleryItem.getBoundingClientRect();
+  window.scrollBy({
+    top: rect.height * 2,
+    behavior: 'smooth',
+  });
+}
 
 form.addEventListener('submit', async event => {
   event.preventDefault();

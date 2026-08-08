@@ -60,14 +60,3 @@ export function showLoadMoreBtn() {
 export function hideLoadMoreBtn() {
   loadMoreBtn.classList.add('hidden');
 }
-
-export function smoothScroll() {
-  const galleryItem = document.querySelector('.gallery-item');
-  if (!galleryItem) return;
-
-  const rect = galleryItem.getBoundingClientRect();
-  window.scrollBy({
-    top: rect.height * 2,
-    behavior: 'smooth',
-  });
-}
